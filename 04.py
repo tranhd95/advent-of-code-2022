@@ -11,7 +11,8 @@ def solve(inp):
         snd_range = set(range(snd_from, snd_to+1))
         if fst_range <= snd_range or snd_range <= fst_range:
             fully_contains += 1
-        if set(fst_range) & set(snd_range):
+            overlaps += 1
+        elif fst_range & snd_range:
             overlaps += 1
     print(fully_contains)
     print(overlaps)
