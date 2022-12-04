@@ -10,7 +10,13 @@ from dotenv import load_dotenv
 def download_input(day, year=2022, suffix="in"):
     url = f"https://adventofcode.com/{year}/day/{day}/input"
     load_dotenv()
-    req = requests.get(url, cookies={"session": os.getenv("COOKIE")})
+    req = requests.get(
+        url,
+        cookies={"session": os.getenv("COOKIE")},
+        headers={
+            "User-Agent": "github.com/tranhd95/advent-of-code-2022/ by tranhd95 _at_ gmail.com"
+        },
+    )
     if req.status_code != 200:
         raise Exception(req.content.decode("utf-8"))
     fname = f"data/{str(day).zfill(2)}.{suffix}"
