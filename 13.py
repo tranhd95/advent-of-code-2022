@@ -9,29 +9,24 @@ def solve1(inp=inp):
     total = 0
     for i, pair in enumerate(pairs, start=1):
         fst, snd = tuple(map(eval, pair.split("\n")))
-        if compare(fst, snd) == -1: 
+        if compare(fst, snd) < 0:
             total += i
     return total
 
 
-def compare(a, b):
-    match (a, b):
-        case (int(), int()):
-            if a == b:
-                return 0
-            return -1 if a < b else 1
-        case (int(), _):
-            a = [a]
-        case (_, int()):
-            b = [b]
-
-    for i in range(len(a)):
-        if i >= len(b):
-            return 1
-        if cmp := compare(a[i], b[i]):
-            return cmp
-
-    return 0 if len(a) == len(b) else -1
+def compare(l, r):
+    match l, r:
+        case int(), int():
+            return l - r
+        case int(), _:
+            return compare([l], r)
+        case _, int():
+            return compare(l, [r])
+        case list(), list():
+            for l_, r_  in zip(l, r):
+                if diff := compare(l_, r_):
+                    return diff
+            return len(l) - len(r)
 
 def solve2(inp=inp):
     pairs = list(eval(line) for line in inp.split("\n") if line.strip())
